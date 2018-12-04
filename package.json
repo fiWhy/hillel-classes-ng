@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -c development --hmr",
+    "start": "ng serve -c development --hmr --port 4202",
     "build": "ng build -c production",
     "test": "ng test",
     "lint": "ng lint",
@@ -25,6 +25,8 @@
     "@ngrx/store": "^6.1.2",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
+    "semantic-ui-sass": "^2.3.1",
+    "semantic-ui-scss": "^1.0.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

@@ -1,0 +1,173 @@
+html {
+    scroll-behavior: smooth
+}
+
+.hash {
+    @include hash($primary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+.hat,
+.page-footer {
+    &.grid.segment {
+        background-color: $primary-color;
+        color: $body-bg-color;
+    }
+}
+
+.drop {
+    @include arrow($primary-color);
+
+    &>b {
+        cursor: pointer;
+    }
+
+    &>ul {
+        display: none;
+    }
+
+    &.opened>ul {
+        display: block;
+    }
+}
+
+
+h2 a {
+    position: relative;
+
+    &:before {
+        content: '#';
+        padding-right: 0.5rem;
+    }
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+}
+
+.ui {
+    &.segment {
+        &.with-code {
+            background-color: $code-background;
+        }
+    }
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    &.underlined {
+        &:after {
+            content: '';
+            background-color: $primary-color;
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 100%;
+            height: 0.3rem;
+        }
+
+        &.error {
+            &:after {
+                background-color: $red;
+            }
+        }
+    }
+}
+
+.presentation.article {
+    .presentation-content {
+
+        $li-space: rem-to-actual-number(0.5rem, $small-circle-width / 2);
+        $li-with-border-space: $li-space+circle-border-size($li-space) * 2.5 + px;
+
+        ul {
+
+            list-style: none;
+            padding: 0;
+
+            li:not(.arrow) {
+                padding: 0 1.5rem;
+
+
+                @include empty-circle($primary-color, $body-bg-color, $small-circle-width);
+
+                &:before {
+                    top: $li-with-border-space;
+                }
+            }
+        }
+
+        .bulleted {
+            &.list {
+                .item {
+                    @include empty-circle($primary-color, $body-bg-color, $small-circle-width);
+
+                    &:before {
+                        top: $li-with-border-space;
+                    }
+                }
+            }
+        }
+    }
+
+    .table-topic,
+    .table-timeline {
+        color: $font-color;
+
+        h3 {
+            &.header {
+                text-transform: uppercase;
+                text-indent: .3rem;
+                line-height: 30px;
+            }
+        }
+    }
+
+    .table-topic {
+        .task {
+            .circles {
+                i {
+                    &:before {
+                        background-color: $primary-color;
+                    }
+                }
+            }
+        }
+
+        .howto {}
+    }
+
+    .circles {
+        @include circles($primary-color--hover, 1.5rem);
+        top: 0.25rem;
+        margin: 0 0.5rem;
+    }
+
+    .theme {
+        .topic {
+            .header {
+                color: $grey;
+                display: inline-block;
+                position: relative;
+            }
+        }
+    }
+}
+
+.article {
+    &>.footer {
+        border-top: 1px solid #DDDDDD;
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08) inset;
+        background-color: #FAFAFA;
+        padding-top: 2em;
+    }
+}

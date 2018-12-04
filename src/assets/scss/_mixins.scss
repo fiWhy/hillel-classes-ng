@@ -1,0 +1,157 @@
+@function circle-border-size($actual) {
+    @return $actual / 5;
+}
+
+@function strip-unit($number) {
+    @if type-of($number)=='number'and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+
+    @return $number;
+}
+
+@function semantic-rem-to-number($units) {
+    @if unit($units)=='rem' {
+        @return strip-unit($units) * strip-unit($body-font-size);
+    }
+
+    @else {
+        @return strip-unit($units);
+    }
+}
+
+@function rem-to-actual-number($rem, $actual) {
+    @return semantic-rem-to-number($rem) - semantic-rem-to-number($actual);
+}
+
+@mixin empty-circle($color-out, $color-inner, $outer-size: 15px) {
+    $inner-size: $outer-size/2;
+    $inner-margin: ($outer-size - $inner-size) / 2;
+
+    position: relative;
+
+    &:before {
+        left: 0;
+        top: 0;
+        position: absolute;
+        content: ' ';
+        display: inline-block;
+        border-radius: 50%;
+        border: circle-border-size($outer-size) solid $color-out;
+        z-index: 1;
+        width: $outer-size;
+        height: $outer-size;
+        background-color: $color-inner;
+    }
+}
+
+@mixin centered-before-element {
+    position: relative;
+
+    &:before {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%);
+        position: absolute;
+    }
+}
+
+@mixin circle($color, $size: 15px) {
+    &:before {
+        content: ' ';
+        display: inline-block;
+        border-radius: 50%;
+        width: $size;
+        height: $size;
+        background-color: $color;
+    }
+}
+
+@mixin circles($color, $size) {
+    $circle-size: round(semantic-rem-to-number($size) / 3) + px;
+    position: relative;
+    display: inline-block;
+    width: $size;
+    height: $size;
+
+    i {
+        @include circle($color, $circle-size);
+        position: absolute;
+        width: $circle-size;
+        height: $circle-size;
+
+        &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &.bright {
+            background-color: $color;
+        }
+
+        &:nth-child(even) {
+            right: 0;
+        }
+
+        &:nth-child(odd) {
+            left: 0;
+        }
+
+        &:nth-child(-n+2) {
+            top: 0;
+        }
+
+        &:nth-child(n+2) {
+            bottom: 0;
+        }
+    }
+}
+
+@mixin arrow($color: #000, $size: 0.2rem) {
+    position: relative;
+    padding-left: 1rem;
+
+    &:before {
+        position: absolute;
+        border: $size solid transparent;
+        border-top: $size solid $color;
+        border-right: $size solid $color;
+        display: inline-block;
+        left: 0;
+        top: 0.5rem;
+        content: '';
+        z-index: 1;
+    }
+
+    &.right {
+        &:before {
+            transform: rotate(45deg);
+        }
+    }
+
+    &.left {
+        &:before {
+            transform: rotate(-135deg);
+        }
+    }
+
+    &.up {
+        &:before {
+            transform: rotate(-45deg);
+        }
+    }
+
+    &.down {
+        &:before {
+            transform: rotate(135deg);
+        }
+    }
+}
+
+@mixin hash($color: #000) {
+    &:before {
+        content: '#';
+        padding-right: 0.5rem;
+    }
+}
