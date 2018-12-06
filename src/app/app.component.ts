@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from './store/reducers';
 import { Observable } from 'rxjs';
-import { MenuItem } from './shared/menu/menu-item';
-import { SetMenuAction, SetActiveMenuItemAction } from './store/actions/menu.actions';
+import { MenuItem } from '@shared/components/menu/menu-item';
+import { SetActiveMenuItemAction, GetMenuAction } from './store/actions/menu.actions';
 import { Router, NavigationEnd } from '@angular/router';
-import menu from './menu';
+import menu from './mocks/menu';
 
 @Component({
   selector: 'c-root',
@@ -35,12 +35,11 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new SetActiveMenuItemAction(menu.find(m => m.link === event.url)));
       }
     });
-    this.store.dispatch(new SetMenuAction(menu));
+
+    this.store.dispatch(new GetMenuAction());
 
     this.activeMenuItem$.subscribe(data => {
       this.activeItem = data;
-
-      console.log(data);
     });
 
     this.menuItems$.subscribe(data => {

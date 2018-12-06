@@ -1,5 +1,5 @@
 import * as menu from '../actions/menu.actions';
-import { MenuItem } from 'src/app/shared/menu/menu-item';
+import { MenuItem } from '@shared/components/menu/menu-item';
 
 export interface State {
     menu: MenuItem[];
@@ -13,21 +13,21 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: menu.Actions): State {
     switch (action.type) {
-        case menu.GET_MENU: {
+        case menu.MenuActions.GET_MENU: {
             return {
                 menu: state.menu,
                 activeElement: state.activeElement
             };
         }
 
-        case menu.SET_MENU: {
+        case menu.MenuActions.SET_MENU: {
             return {
                 menu: action.payload,
                 activeElement: state.activeElement
             };
         }
 
-        case menu.SET_ACTIVE_MENU_ITEM: {
+        case menu.MenuActions.SET_ACTIVE_MENU_ITEM: {
             return {
                 menu: state.menu,
                 activeElement: action.payload

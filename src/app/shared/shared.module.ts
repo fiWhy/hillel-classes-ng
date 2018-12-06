@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from './menu/menu.component';
 import { RouterModule } from '@angular/router';
+
+import { MenuComponent } from './components/menu/menu.component';
 import { ArticleHeaderComponent } from './components/article-header/article-header.component';
 import { MaterialListComponent } from './components/material-list/material-list.component';
 import { QuickNavigationComponent } from './components/quick-navigation/quick-navigation.component';
@@ -18,7 +19,10 @@ import { QuickNavigationComponent } from './components/quick-navigation/quick-na
     RouterModule
   ],
   exports: [
-    MenuComponent
+    MenuComponent,
+    ArticleHeaderComponent,
+    MaterialListComponent,
+    QuickNavigationComponent
   ]
 })
 export class SharedModule { }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Material } from './models/material';
 
 @Component({
   selector: 'c-material-list',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./material-list.component.scss']
 })
 export class MaterialListComponent implements OnInit {
+
+  @Input() title = 'Materials';
+  @Input() items: Material[] = [];
 
   constructor() { }
 

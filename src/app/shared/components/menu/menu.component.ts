@@ -16,6 +16,6 @@ export class MenuComponent implements OnInit {
   }
 
   isLinkActive(item: MenuItem) {
-    return item.link === this.activeElement.link;
+    return this.activeElement ? item.link === this.activeElement.link: false;
   }
 }

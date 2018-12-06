@@ -1,3 +1,12 @@
-<p>
-  material-list works!
-</p>
+<div class="ui piled segment">
+  <h3 class="header">{{ title }}</h3>
+  <div class="ui list">
+    <div class="item" *ngFor="let item of items">
+      <div class="content">
+        <div class="header">
+          <a [href]="item.link">{{ item.label }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

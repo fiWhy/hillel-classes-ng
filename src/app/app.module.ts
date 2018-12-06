@@ -13,6 +13,7 @@ import { SharedModule } from './shared/shared.module';
 
 
 import { reducers, metaReducers } from './store/reducers';
+import { effects } from './store/effects';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { reducers, metaReducers } from './store/reducers';
       maxAge: 25,
       logOnly: environment.production
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(effects),
     StoreRouterConnectingModule.forRoot()
   ],
   providers: [],

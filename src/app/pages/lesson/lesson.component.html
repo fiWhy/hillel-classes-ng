@@ -1,3 +1,19 @@
-<p>
-  lesson works! hmr
-</p>
+<c-article-header>
+  <h1 class="header">1. Introduction</h1>
+</c-article-header>
+<c-material-list [items]="materials"></c-material-list>
+<div class="ui hidden divider"></div>
+<div class="row">
+  <div class="column">
+    <div class="ui two column stackable grid table-topic">
+      <div class="column task">
+        <h3 class="ui header">Topic Goals</h3>
+      </div>
+      <div class="column howto">
+        <h3 class="ui header">Information</h3>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+  </div>
+</div>
+<c-topic *ngFor="let item of topics"></c-topic>
