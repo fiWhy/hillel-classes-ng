@@ -11,6 +11,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 
+
+import { reducers, metaReducers } from './store/reducers';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -20,9 +23,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule,
     RouterModule,
     AppRoutingModule,
-    StoreModule.forRoot({
-      router: routerReducer
-    }),
+    StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production

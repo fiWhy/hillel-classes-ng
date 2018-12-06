@@ -1,13 +1,13 @@
 <div class="ui row">
   <div class=" column">
     <div class="ui secondary pointing menu">
-      <a href="#" class="item">Сourses</a>
-      <a href="#" class="active item">Last lesson</a>
+      <a *ngFor="let item of items"
+        [routerLink]="[item.link]"
+        routerLinkActive="{{ isLinkActive(item) }}"
+        [ngClass]="{ active: isLinkActive(item) }"
+        class="item">{{ item.label }}</a>
       <div class="right menu">
-        <span class="ui item">Username</span>
-        <span class="ui item">
-          <img class="ui avatar image" src="/src/images/offline.png">
-        </span>
+        <ng-content></ng-content>
       </div>
     </div>
   </div>

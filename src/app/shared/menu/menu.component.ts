@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MenuItem } from './menu-item';
 
 @Component({
   selector: 'c-menu',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  @Input() items: MenuItem[] = [];
+  @Input() activeElement: MenuItem = new MenuItem();
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  isLinkActive(item: MenuItem) {
+    return item.link === this.activeElement.link;
+  }
 }
