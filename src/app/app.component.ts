@@ -6,6 +6,9 @@ import { MenuItem } from '@shared/components/menu/menu-item';
 import { SetActiveMenuItemAction, GetMenuAction } from './store/actions/menu.actions';
 import { Router, NavigationEnd } from '@angular/router';
 import menu from './mocks/menu';
+import { auth } from 'firebase';
+import { AuthService } from './core/services/auth.service';
+import { StorageService } from './core/services/storage.service';
 
 @Component({
   selector: 'c-root',
@@ -14,6 +17,8 @@ import menu from './mocks/menu';
 })
 export class AppComponent implements OnInit {
   title = 'hillel-ng';
+  photoUrl: string;
+  username: string;
 
   menuItems$: Observable<MenuItem[]>;
   activeMenuItem$: Observable<MenuItem>;
@@ -21,8 +26,11 @@ export class AppComponent implements OnInit {
   activeItem: MenuItem;
   menuItems: MenuItem[];
 
+
   constructor(
     private store: Store<fromRoot.State>,
+    private authService: AuthService,
+    private storageService: StorageService,
     private router: Router
   ) {
     this.menuItems$ = store.select(fromRoot.getMenuList);
@@ -38,6 +46,12 @@ export class AppComponent implements OnInit {
 
     this.store.dispatch(new GetMenuAction());
 
+    this.storageService.storage.subscribe(data => {
+      const user = this.storageService.get('user');
+      this.photoUrl = user.photoURL;
+      this.username = user.displayName;
+    })
+
     this.activeMenuItem$.subscribe(data => {
       this.activeItem = data;
     });
@@ -45,5 +59,15 @@ export class AppComponent implements OnInit {
     this.menuItems$.subscribe(data => {
       this.menuItems = data;
     });
+  }
+
+  auth() {
+    this.authService.google()
+      .subscribe(result => {
+        this.storageService.update({
+          user: result.user,
+          at: result.credential.accessToken
+        })
+      })
   }
 }

@@ -4,6 +4,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularFire2/database';
 
 import { AppComponent } from './app.component';
 import { environment } from '@env';
@@ -14,6 +16,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { reducers, metaReducers } from './store/reducers';
 import { effects } from './store/effects';
+import { firebaseCredentials } from '../firebase.credentials';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,8 @@ import { effects } from './store/effects';
     BrowserModule,
     SharedModule,
     RouterModule,
+    AngularFireModule.initializeApp(firebaseCredentials),
+    AngularFireDatabaseModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
     StoreDevtoolsModule.instrument({
