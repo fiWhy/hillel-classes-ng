@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,12 +16,15 @@ import { SharedModule } from './shared/shared.module';
 import { reducers, metaReducers } from './store/reducers';
 import { effects } from './store/effects';
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     RouterModule,
     AppRoutingModule,
@@ -30,7 +34,8 @@ import { effects } from './store/effects';
       logOnly: environment.production
     }),
     EffectsModule.forRoot(effects),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
