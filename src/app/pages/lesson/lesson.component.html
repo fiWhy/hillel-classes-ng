@@ -16,4 +16,4 @@
     <div class="ui divider"></div>
   </div>
 </div>
-<c-topic *ngFor="let item of topics"></c-topic>
+<c-topic [item]="item" *ngFor="let item of (lessonThemes$ | async)"></c-topic>

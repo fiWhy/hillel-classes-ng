@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
       const user = this.storageService.get('user');
       this.photoUrl = user.photoURL;
       this.username = user.displayName;
-    })
+    });
 
     this.activeMenuItem$.subscribe(data => {
       this.activeItem = data;
@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
         this.storageService.update({
           user: result.user,
           at: result.credential.accessToken
-        })
-      })
+        });
+      });
   }
 }

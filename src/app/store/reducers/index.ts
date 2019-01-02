@@ -1,5 +1,5 @@
 import { storeFreeze } from 'ngrx-store-freeze';
-import { createSelector, MetaReducer, ActionReducerMap } from '@ngrx/store';
+import { createSelector, MetaReducer, ActionReducerMap, Action } from '@ngrx/store';
 import { environment } from '@env';
 
 import * as fromMenu from './menu.reducer';
@@ -12,7 +12,7 @@ export interface State {
     router: RouterReducerState;
     menu: fromMenu.State;
     materials: fromMaterial.State;
-    lessonThemes: fromLessonTheme.State
+    lessonThemes: fromLessonTheme.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -33,3 +33,11 @@ export const getMaterialsList = createSelector(getMaterialsState, state => state
 
 export const getLessonThemesState = (state: State) => state.lessonThemes;
 export const getLessonThemesList = createSelector(getLessonThemesState, state => state.items);
+
+
+export const ofResult = (resultConstant: string) => (cb: (action: Action) => void) => (action: any) => {
+    switch (action.type) {
+        case resultConstant:
+            cb(action);
+    }
+};

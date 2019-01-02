@@ -17,6 +17,7 @@ import { SharedModule } from './shared/shared.module';
 import { reducers, metaReducers } from './store/reducers';
 import { effects } from './store/effects';
 import { firebaseCredentials } from '../firebase.credentials';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { firebaseCredentials } from '../firebase.credentials';
     AngularFireModule.initializeApp(firebaseCredentials),
     AngularFireDatabaseModule,
     AppRoutingModule,
+    AngularFirestoreModule,
     StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

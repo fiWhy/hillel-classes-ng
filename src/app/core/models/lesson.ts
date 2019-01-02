@@ -1,7 +1,10 @@
+
 export class Lesson {
-    anchor: string;
-    content: string;
-    goal: string;
-    lesson: string;
     title: string;
+    description: string;
+
+    constructor(data: any) {
+        this.title = data.title;
+        this.description = data.description;
+    }
 }
