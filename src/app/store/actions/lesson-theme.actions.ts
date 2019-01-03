@@ -1,14 +1,21 @@
 import { Action } from '@ngrx/store';
-import { Lesson } from 'src/app/core/models/lesson';
-import { AngularFireList } from 'angularFire2/database';
+import { LessonTopic } from '@core/models/lesson-topic';
 
 export enum LessonThemeActionTypes {
   LoadLessonThemes = '[LessonTheme] Load LessonThemes',
-  LoadLessonThemesSuccess = '[LessonTheme] Load LessonThemes Success'
+  UpdateLessonThemes = '[LessonTheme] Update LessonThemes',
+  LoadLessonThemesSuccess = '[LessonTheme] Load LessonThemes Success',
+  UpdateLessonThemesSuccess = '[LessonTheme] Update LessonThemes Success'
 }
 
 export class LoadLessonThemes implements Action {
   readonly type = LessonThemeActionTypes.LoadLessonThemes;
+}
+
+export class UpdateLessonThemes implements Action {
+  readonly type = LessonThemeActionTypes.UpdateLessonThemes;
+
+  constructor(public payload: LessonTopic) { }
 }
 
 export class LoadLessonThemesSuccess implements Action {
@@ -17,4 +24,11 @@ export class LoadLessonThemesSuccess implements Action {
   constructor(public payload: any) { }
 }
 
-export type LessonThemeActions = LoadLessonThemes | LoadLessonThemesSuccess;
+export class UpdateLessonThemesSuccess implements Action {
+  readonly type = LessonThemeActionTypes.UpdateLessonThemesSuccess;
+}
+
+export type LessonThemeActions = LoadLessonThemes |
+  LoadLessonThemesSuccess |
+  UpdateLessonThemes |
+  UpdateLessonThemesSuccess;

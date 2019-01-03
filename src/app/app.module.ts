@@ -30,7 +30,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AngularFireModule.initializeApp(firebaseCredentials),
     AngularFireDatabaseModule,
     AppRoutingModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

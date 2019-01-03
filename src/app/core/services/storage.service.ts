@@ -10,7 +10,7 @@ export class StorageService {
   constructor() { }
 
   update(data: any) {
-    for (let key in data) {
+    for (const key in data) {
       if (data.hasOwnProperty(key)) {
         window.localStorage.setItem(key, isObject(data[key]) ? JSON.stringify(data[key]) : data[key]);
       }

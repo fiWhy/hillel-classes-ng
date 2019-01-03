@@ -6,7 +6,6 @@ import { MenuItem } from '@shared/components/menu/menu-item';
 import { SetActiveMenuItemAction, GetMenuAction } from './store/actions/menu.actions';
 import { Router, NavigationEnd } from '@angular/router';
 import menu from './mocks/menu';
-import { auth } from 'firebase';
 import { AuthService } from './core/services/auth.service';
 import { StorageService } from './core/services/storage.service';
 

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { Action } from '@ngrx/store';
-import { LessonThemeActionTypes, LoadLessonThemesSuccess } from '../actions/lesson-theme.actions';
-import { switchMap, map, tap, mergeMap } from 'rxjs/operators';
+import { LessonThemeActionTypes, LoadLessonThemesSuccess, UpdateLessonThemesSuccess } from '../actions/lesson-theme.actions';
+import { switchMap, map, pluck, tap } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { LessonTopic } from 'src/app/core/models/lesson-topic';
 
@@ -19,6 +17,16 @@ export class LessonThemeEffects {
         })
       )),
       map(data => new LoadLessonThemesSuccess(data))
+    );
+
+  @Effect() updateLessonThemes$: any = this.actions$
+    .pipe(
+      ofType(LessonThemeActionTypes.UpdateLessonThemes),
+      pluck('payload'),
+      tap((data: LessonTopic) => {
+        this.firebaseService.updateTopics(data);
+      }),
+      map(() => new UpdateLessonThemesSuccess())
     );
 
   constructor(

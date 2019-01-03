@@ -7,7 +7,7 @@ import { TopicComponent } from './components/topic/topic.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { TopicEffects } from './effects/topic.effects';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,8 @@ import { TopicEffects } from './effects/topic.effects';
     SharedModule,
     LessonRoutingModule,
     StoreModule.forFeature('Topic', reducers),
-    EffectsModule.forFeature([TopicEffects])
+    EffectsModule.forFeature([]),
+    CKEditorModule
   ]
 })
 export class LessonModule { }

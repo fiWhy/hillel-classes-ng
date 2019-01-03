@@ -16,4 +16,7 @@
     <div class="ui divider"></div>
   </div>
 </div>
-<c-topic [item]="item" *ngFor="let item of (lessonThemes$ | async)"></c-topic>
+<c-topic (goalSave)="handleTopicSave($event)"
+  (contentSave)="handleTopicSave($event)" 
+  [item]="item" 
+  *ngFor="let item of (lessonThemes$ | async)"></c-topic>

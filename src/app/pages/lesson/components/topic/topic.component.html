@@ -9,8 +9,26 @@
     </header>
     <section class="ui divider"></section>
     <section class="ui two column stackable grid data">
-      <div class="column task" [innerHTML]="item.goal"></div>
-      <div class="column howto" [innerHTML]="item.content"></div>
+      <div class="column task">
+        <div *ngIf="editGoal; else goal">
+          <ckeditor [editor]="Editor" (change)="handleContentChanged($event)"
+            [data]="item.goal"></ckeditor>
+          <button class="ui primary button" (click)="disableGoalEditor($event)">Save</button>
+        </div>
+        <ng-template #goal>
+          <div (click)="enableGoalEditor($event)" [innerHTML]="item.goal"></div>
+        </ng-template>
+      </div>
+
+      <div class="column howto">
+        <div *ngIf="editContent; else content">
+          <ckeditor [editor]="Editor" (change)="handleContentChanged($event)" [data]="item.content"></ckeditor>
+          <button class="ui primary button" (click)="disableContentEditor($event)">Save</button>
+        </div>
+        <ng-template #content>
+          <div (click)="enableContentEditor($event)" [innerHTML]="item.content"></div>
+        </ng-template>
+      </div>
     </section>
   </div>
 </div>

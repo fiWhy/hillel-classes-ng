@@ -18,11 +18,24 @@ export function reducer(state = initialState, action: LessonThemeActions): State
       }
     }
 
+    case LessonThemeActionTypes.UpdateLessonThemes: {
+      return {
+        items: state.items
+      }
+    }
+
     case LessonThemeActionTypes.LoadLessonThemesSuccess: {
       return {
         items: action.payload
       }
     }
+
+    case LessonThemeActionTypes.UpdateLessonThemesSuccess: {
+      return {
+        items: state.items
+      }
+    }
+
 
     default:
       return state;
