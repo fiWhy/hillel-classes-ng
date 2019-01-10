@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularFire2/database';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { LessonTopic } from '../models/lesson-topic';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +9,39 @@ import { map } from 'rxjs/operators';
 export class FirebaseService {
   private lessonsCollection = this.afs.collection('lessons');
   private topicsCollection = this.afs.collection('lesson-topics');
+  private materialsCollection = this.afs.collection('materials');
 
   lessons$ = this.lessonsCollection.snapshotChanges();
   topics$ = this.topicsCollection.snapshotChanges()
     .pipe(
-      map(data => this.convertSnapshot<LessonTopic>(data))
-    );
+      map(data => FirebaseService.convertSnapshot<LessonTopic>(data))
+    )
+
+  materials$ = this.materialsCollection.snapshotChanges()
+    .pipe(
+      map(data => FirebaseService.convertSnapshot(data))
+    )
 
   constructor(
-    private db: AngularFireDatabase,
     private afs: AngularFirestore
   ) { }
+
+  public static convertSnapshot<T>(sh: DocumentChangeAction<any>[]): T[] {
+    return sh.map(s => FirebaseService.convertSingleDoc<T>(s));
+  }
+
+  public static convertSingleDoc<T>(d: DocumentChangeAction<any>): T {
+    return {
+      id: d.payload.doc.id,
+      ...d.payload.doc.data()
+    }
+  }
 
   updateTopics(data: LessonTopic) {
     this.topicsCollection.doc(data.id).update({ ...data });
   }
 
-  private convertSnapshot<T>(sh: DocumentChangeAction<any>[]): T[] {
-    return sh.map(s => ({
-      id: s.payload.doc.id,
-      ...s.payload.doc.data()
-    }));
+  getMaterials() {
+    this.materialsCollection.get()
   }
 }

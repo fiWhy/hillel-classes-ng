@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Material } from './models/material';
+import { Material } from '../../../core/models/material';
 
 @Component({
   selector: 'c-material-list',

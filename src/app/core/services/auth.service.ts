@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { auth } from 'firebase';
 
 export interface Authorization {
@@ -12,7 +12,7 @@ export interface Authorization {
 })
 export class AuthService {
   firebaseAuth = auth();
-  authorized: Subject<Authorization> = new Subject();
+  authorized: BehaviorSubject<Authorization> = new BehaviorSubject({ authorized: false, data: null });
 
   constructor() {
     this.firebaseAuth.onAuthStateChanged((user: any) => {
@@ -29,7 +29,10 @@ export class AuthService {
         .then((result: any) => {
           observer.next(result);
           observer.complete();
-          this.authorized.next(result);
+          this.authorized.next({
+            authorized: true,
+            data: result
+          });
         });
     });
   }

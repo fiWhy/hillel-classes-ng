@@ -12,6 +12,7 @@ import { LessonTopic } from '@core/models/lesson-topic';
 export class TopicComponent implements OnInit {
   Editor = ClassicEditor;
   @Input() item = new LessonTopic({});
+  @Input() editable: boolean;
 
   editContent = false;
   editGoal = false;
@@ -28,7 +29,7 @@ export class TopicComponent implements OnInit {
 
   enableContentEditor(e) {
     this.content = this.item.content;
-    this.editContent = true;
+    this.editContent = this.editable;
   }
 
   disableContentEditor(e) {
@@ -42,7 +43,7 @@ export class TopicComponent implements OnInit {
 
   enableGoalEditor(e) {
     this.content = this.item.goal;
-    this.editGoal = true;
+    this.editGoal = this.editable;
   }
 
   disableGoalEditor(e) {

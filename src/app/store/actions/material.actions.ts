@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Material } from '../../shared/components/material-list/models/material';
+import { Material } from '../../core/models/material';
 
 export enum MaterialActionTypes {
   LoadMaterials = '[Material] Load Materials',
@@ -10,7 +10,7 @@ export enum MaterialActionTypes {
 export class LoadMaterials implements Action {
   readonly type = MaterialActionTypes.LoadMaterials;
 
-  constructor(public payload: { id: number }) { }
+  constructor(public payload: string[]) { }
 }
 
 export class LoadMaterialsSuccess implements Action {

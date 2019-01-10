@@ -47,8 +47,10 @@ export class AppComponent implements OnInit {
 
     this.storageService.storage.subscribe(data => {
       const user = this.storageService.get('user');
-      this.photoUrl = user.photoURL;
-      this.username = user.displayName;
+      if (user) {
+        this.photoUrl = user.photoURL;
+        this.username = user.displayName;
+      }
     });
 
     this.activeMenuItem$.subscribe(data => {

@@ -24,7 +24,7 @@ export class StorageService {
 
   get(key) {
     const item = window.localStorage.getItem(key);
-    return item && item[0] === '{' || item[0] === '[' ? JSON.parse(item) : item;
+    return item && (item[0] === '{' || item[0] === '[') ? JSON.parse(item) : item;
   }
 
   clear() {

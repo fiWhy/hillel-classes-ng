@@ -1,11 +1,10 @@
-import { Action } from '@ngrx/store';
 import { TopicActions, TopicActionTypes } from '../actions/topic.actions';
-import { Topic } from '../models/topic';
+import { LessonTopic } from '@core/models/lesson-topic';
 
 
 export interface State {
   id: number;
-  items: Topic[];
+  items: LessonTopic[];
 }
 
 export const initialState: State = { id: null, items: [] };

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Topic } from '../models/topic';
+import { LessonTopic } from '@core/models/lesson-topic';
 
 export enum TopicActionTypes {
   LoadTopics = '[Topic] Load Topics',
@@ -17,19 +17,19 @@ export class LoadTopics implements Action {
 export class UpdateTopics implements Action {
   readonly type = TopicActionTypes.LoadTopics;
 
-  constructor(public payload: { key: string, value: Topic }) { }
+  constructor(public payload: { key: string, value: LessonTopic }) { }
 }
 
 export class LoadTopicsSuccess implements Action {
   readonly type = TopicActionTypes.LoadTopicsSuccess;
 
-  constructor(public payload: Topic[]) { }
+  constructor(public payload: LessonTopic[]) { }
 }
 
 export class UpdateTopicsSuccess implements Action {
   readonly type = TopicActionTypes.UpdateTopicsSuccess;
 
-  constructor(public payload: Topic[]) { }
+  constructor(public payload: LessonTopic[]) { }
 }
 
 export class LoadTopicsError implements Action {
