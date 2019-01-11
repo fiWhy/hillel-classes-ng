@@ -8,6 +8,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import menu from './mocks/menu';
 import { AuthService } from './core/services/auth.service';
 import { StorageService } from './core/services/storage.service';
+import { LoadLessons } from './store/actions/lesson.actions';
 
 @Component({
   selector: 'c-root',
@@ -44,6 +45,7 @@ export class AppComponent implements OnInit {
     });
 
     this.store.dispatch(new GetMenuAction());
+    // this.store.dispatch(new LoadLessons());
 
     this.storageService.storage.subscribe(data => {
       const user = this.storageService.get('user');

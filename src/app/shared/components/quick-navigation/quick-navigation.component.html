@@ -1,3 +1,5 @@
-<p>
-  quick-navigation works!
-</p>
+<div class="sticked" cSticky relation="#sticker">
+  <ul>
+    <li *ngFor="let item of items"><a class="hash" [routerLink]="['.']" [fragment]="item.anchor">{{ item.text }}</a></li>
+  </ul>
+</div>

@@ -4,9 +4,21 @@
     <div class="item" *ngFor="let item of items">
       <div class="content">
         <div class="header">
-          <a [href]="item.link">{{ item.label }}</a>
+          <a [href]="item.link">{{ item.text }}</a>
         </div>
       </div>
     </div>
+    <div class="item" *ngFor="let item of newItems">
+      <div class="content">
+        <div class="header">
+          <input placeholder="Link" [(ngModel)]="item.link">
+          <input placeholder="Text" [(ngModel)]="item.text">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="buttons" *ngIf="editable">
+    <button (click)="handleAddMaterial()">Add</button>
+    <button *ngIf="newItems.length" (click)="handleSave()">Save</button>
   </div>
 </div>

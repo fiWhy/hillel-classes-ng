@@ -3,30 +3,29 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, catchError, pluck, switchMap, tap } from 'rxjs/operators';
 
-import * as material from '../actions/material.actions';
 import { FirebaseService } from '@core/services/firebase.service';
-import { Material } from 'src/app/core/models/material';
+import { LessonFirebaseService } from 'src/app/core/services/lesson-firebase.service';
+import { Lesson } from 'src/app/core/models/lesson';
+import { MaterialActions, MaterialActionTypes, LoadMaterialsSuccess, LoadMaterialsError } from '../actions/material.actions';
 
 @Injectable()
 export class MaterialEffects {
 
-  @Effect() materials$: Observable<material.MaterialActions> = this.actions$
+  @Effect() materials$: Observable<MaterialActions> = this.actions$
     .pipe(
-      ofType(material.MaterialActionTypes.LoadMaterials),
+      ofType(MaterialActionTypes.LoadMaterials),
       pluck('payload'),
-      switchMap((topicIds: string[]) =>
-        this.firebaseService.materials$.pipe(
-          map((list: any[]) => list.map(el => new Material(el))),
-          map((list: Material[]) => list.filter(m => topicIds.includes(m.topicId))),
-          map((materialList: Material[]) => {
-            return new material.LoadMaterialsSuccess(materialList)
-          })
-        )),
-      catchError(() => of(new material.LoadMaterialsError()))
+      switchMap((lesson: Lesson) =>
+        this.lessonFirebaseService.getLessonMaterials(lesson)
+          .pipe(
+            map(data => new LoadMaterialsSuccess(data))
+          )),
+      catchError(() => of(new LoadMaterialsError()))
     )
 
   constructor(
     private actions$: Actions,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private lessonFirebaseService: LessonFirebaseService
   ) { }
 }

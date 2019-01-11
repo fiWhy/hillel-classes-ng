@@ -5,22 +5,21 @@ import { LessonRoutingModule } from './lesson-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TopicComponent } from './components/topic/topic.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { TopicGoalComponent } from './components/topic-goal/topic-goal.component';
 
 @NgModule({
   declarations: [
     LessonComponent,
-    TopicComponent
+    TopicComponent,
+    TopicGoalComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     LessonRoutingModule,
-    StoreModule.forFeature('Topic', reducers),
-    EffectsModule.forFeature([]),
-    CKEditorModule
+    StoreModule.forFeature('Topic', []),
+    EffectsModule.forFeature([])
   ]
 })
 export class LessonModule { }

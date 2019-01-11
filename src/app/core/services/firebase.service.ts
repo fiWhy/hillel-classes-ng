@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
-import { LessonTopic } from '../models/lesson-topic';
-import { map, tap } from 'rxjs/operators';
+import { Topic } from '../models/topic';
+import { map } from 'rxjs/operators';
+import { Lesson } from '../models/lesson';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,14 @@ export class FirebaseService {
   private topicsCollection = this.afs.collection('lesson-topics');
   private materialsCollection = this.afs.collection('materials');
 
-  lessons$ = this.lessonsCollection.snapshotChanges();
+  lessons$ = this.lessonsCollection.snapshotChanges()
+    .pipe(
+      map(data => FirebaseService.convertSnapshot<Lesson>(data))
+    );
+
   topics$ = this.topicsCollection.snapshotChanges()
     .pipe(
-      map(data => FirebaseService.convertSnapshot<LessonTopic>(data))
+      map(data => FirebaseService.convertSnapshot<Topic>(data))
     )
 
   materials$ = this.materialsCollection.snapshotChanges()
@@ -37,7 +42,7 @@ export class FirebaseService {
     }
   }
 
-  updateTopics(data: LessonTopic) {
+  updateTopics(data: Topic) {
     this.topicsCollection.doc(data.id).update({ ...data });
   }
 

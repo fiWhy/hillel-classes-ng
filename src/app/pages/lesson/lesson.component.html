@@ -1,25 +1,29 @@
-<div class="presentation-content">
-  <c-article-header>
-    <h1 class="header">1. Introduction</h1>
-  </c-article-header>
-  <c-material-list [items]="materials"></c-material-list>
-  <div class="ui hidden divider"></div>
-  <div class="row">
-    <div class="column">
-      <div class="ui two column stackable grid table-topic">
-        <div class="column task">
-          <h3 class="ui header">Topic Goals</h3>
+<c-article-header>
+  <h1 class="header">
+    1. Introduction
+  </h1>
+</c-article-header>
+<div class="ui grid">
+  <div class="thirteen wide tablet thirteen wide computer sixteen wide mobile column presentation-content">
+    <c-material-list [items]="materials"></c-material-list>
+    <div class="ui hidden divider"></div>
+    <div class="row">
+      <div class="column">
+        <div class="ui two column stackable grid table-topic">
+          <div class="column task">
+            <h3 class="ui header">Topic Goals</h3>
+          </div>
+          <div class="column howto">
+            <h3 class="ui header">Information</h3>
+          </div>
         </div>
-        <div class="column howto">
-          <h3 class="ui header">Information</h3>
-        </div>
+        <div class="ui divider"></div>
       </div>
-      <div class="ui divider"></div>
     </div>
+    <c-topic (change)="handleTopicSave($event)" [editable]="authorized"
+      [item]="item" *ngFor="let item of topics"></c-topic>
   </div>
-  <c-topic (goalSave)="handleTopicSave($event)"
-    (contentSave)="handleTopicSave($event)"
-    [editable]="authorized"
-    [item]="item" 
-    *ngFor="let item of (lessonThemes$ | async)"></c-topic>
+  <div id="sticker" class="two wide tablet computer only column">
+    <c-quick-navigation [items]="quickNavigation"></c-quick-navigation>
+  </div>
 </div>

@@ -1,0 +1,10 @@
+<section class="ui two column stackable grid data">
+  <div class="column task">
+    <c-editable-input [data]="item.goal" (save)="handleGoalSave($event)" [editable]="editable"></c-editable-input>
+  </div>
+
+  <div class="column howto">
+    <c-editable-input [data]="item.content" (save)="handleContentSave($event)" [editable]="editable"></c-editable-input>
+    <c-material-list *ngIf="item.articles.length" (add)="handleAddMaterials($event)" [editable]="editable" [items]="item.articles"></c-material-list>
+  </div>
+</section>

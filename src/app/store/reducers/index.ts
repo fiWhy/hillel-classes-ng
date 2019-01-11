@@ -4,7 +4,8 @@ import { environment } from '@env';
 
 import * as fromMenu from './menu.reducer';
 import * as fromMaterial from './material.reducer';
-import * as fromLessonTheme from './lesson-theme.reducer';
+import * as fromLessonTopic from './topic.reducer';
+import * as fromLesson from './lesson.reducer';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 
 
@@ -12,14 +13,16 @@ export interface State {
     router: RouterReducerState;
     menu: fromMenu.State;
     materials: fromMaterial.State;
-    lessonThemes: fromLessonTheme.State;
+    lessonTopics: fromLessonTopic.State;
+    lessons: fromLesson.State
 }
 
 export const reducers: ActionReducerMap<State> = {
     router: routerReducer,
     menu: fromMenu.reducer,
     materials: fromMaterial.reducer,
-    lessonThemes: fromLessonTheme.reducer
+    lessonTopics: fromLessonTopic.reducer,
+    lessons: fromLesson.reducer
 };
 
 export const metaReducers: MetaReducer<State>[] = environment.production ? [] : [storeFreeze];
@@ -31,13 +34,10 @@ export const getMenuActiveElement = createSelector(getMenuState, state => state.
 export const getMaterialsState = (state: State) => state.materials;
 export const getMaterialsList = createSelector(getMaterialsState, state => state.items);
 
-export const getLessonThemesState = (state: State) => state.lessonThemes;
-export const getLessonThemesList = createSelector(getLessonThemesState, state => state.items);
+export const getLessonTopicsState = (state: State) => state.lessonTopics;
+export const getLessonTopicsList = createSelector(getLessonTopicsState, state => state.items);
 
 
-export const ofResult = (resultConstant: string) => (cb: (action: Action) => void) => (action: any) => {
-    switch (action.type) {
-        case resultConstant:
-            cb(action);
-    }
-};
+export const getLessonsState = (state: State) => state.lessons;
+export const getLessonsList = createSelector(getLessonsState, state => state.lessons);
+export const getLesson = createSelector(getLessonsState, state => state.lesson);

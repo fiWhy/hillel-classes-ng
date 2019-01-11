@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { EventEmitter } from '@angular/core';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
-import { LessonTopic } from '@core/models/lesson-topic';
+import { Topic, TopicGoal } from '@core/models/topic';
+import { Material } from 'src/app/core/models/material';
 
 @Component({
   selector: 'c-topic',
@@ -10,52 +9,34 @@ import { LessonTopic } from '@core/models/lesson-topic';
   styleUrls: ['./topic.component.css']
 })
 export class TopicComponent implements OnInit {
-  Editor = ClassicEditor;
-  @Input() item = new LessonTopic({});
+  @Input() item = new Topic({}, null);
   @Input() editable: boolean;
 
   editContent = false;
   editGoal = false;
 
-  content: string;
-
-  @Output() goalSave = new EventEmitter<LessonTopic>();
-  @Output() contentSave = new EventEmitter<LessonTopic>();
+  @Output() change = new EventEmitter<Topic>();
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  handleContentSave(item: TopicGoal, index: number) {
+    const newItem = this.item.clone();
+    newItem.data.splice(index, 1, item);
+    this.change.emit(newItem);
   }
 
-  enableContentEditor(e) {
-    this.content = this.item.content;
-    this.editContent = this.editable;
+  handleGoalSave(item: TopicGoal, index: number) {
+    const newItem = this.item.clone();
+    newItem.data.splice(index, 1, item);
+    this.change.emit(newItem);
   }
 
-  disableContentEditor(e) {
-    this.editContent = false;
-    if (this.content !== this.item.content) {
-      const newItem = this.item.clone();
-      newItem.content = this.content;
-      this.contentSave.emit(newItem);
-    }
+  handleMaterialsAdd(materials: Material[]) {
+    const newItem = this.item.clone();
+    newItem.articles = [...newItem.articles, ...materials];
+    this.change.emit(newItem);
   }
 
-  enableGoalEditor(e) {
-    this.content = this.item.goal;
-    this.editGoal = this.editable;
-  }
-
-  disableGoalEditor(e) {
-    this.editGoal = false;
-    if (this.content !== this.item.goal) {
-      const newItem = this.item.clone();
-      newItem.goal = this.content;
-      this.goalSave.emit(newItem);
-    }
-  }
-
-  handleContentChanged({ editor }: ChangeEvent) {
-    this.content = editor.getData();
-  }
 }

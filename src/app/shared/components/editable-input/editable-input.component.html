@@ -1,0 +1,7 @@
+<div *ngIf="editContent; else content">
+  <ckeditor [editor]="Editor" (change)="handleContentChanged($event)" [data]="data"></ckeditor>
+  <button class="ui primary button" (click)="disableContentEditor($event)">Save</button>
+</div>
+<ng-template #content>
+  <div (click)="enableContentEditor($event)" [innerHTML]="data"></div>
+</ng-template>

@@ -20,7 +20,9 @@ export const routes = [
 @NgModule({
     declarations: [],
     imports: [
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes, {
+            anchorScrolling: 'enabled'
+        })
     ],
     exports: [],
     providers: [],
