@@ -1,11 +1,11 @@
 <c-article-header>
   <h1 class="header">
-    1. Introduction
+    <c-editable-input [data]="lesson?.title" (save)="handleUpdateTitle($event)" [editable]="authorized" [editor]="false"></c-editable-input>
   </h1>
 </c-article-header>
 <div class="ui grid">
   <div class="thirteen wide tablet thirteen wide computer sixteen wide mobile column presentation-content">
-    <c-material-list [items]="materials"></c-material-list>
+    <c-material-list [items]="materials" [editable]="false"></c-material-list>
     <div class="ui hidden divider"></div>
     <div class="row">
       <div class="column">
@@ -20,8 +20,9 @@
         <div class="ui divider"></div>
       </div>
     </div>
-    <c-topic (change)="handleTopicSave($event)" [editable]="authorized"
-      [item]="item" *ngFor="let item of topics"></c-topic>
+    <c-topic (update)="handleTopicSave($event)" (deleteGoal)="handleDeleteGoal($event)" (delete)="handleDeleteTopic($event)" [editable]="authorized" [item]="item"
+      *ngFor="let item of topics"></c-topic>
+    <button (click)="handleAddTopic()">Add topic</button>
   </div>
   <div id="sticker" class="two wide tablet computer only column">
     <c-quick-navigation [items]="quickNavigation"></c-quick-navigation>

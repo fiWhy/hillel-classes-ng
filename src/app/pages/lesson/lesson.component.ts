@@ -13,7 +13,9 @@ import { Lesson } from '@core/models/lesson';
 import { LoadMaterials } from '@store/actions/material.actions';
 import { LessonFirebaseService } from '@core/services/lesson-firebase.service';
 import { Anchor } from '@shared/components/quick-navigation/models/anchor';
-import { UpdateTopic } from 'src/app/store/actions/topic.actions';
+import { UpdateTopic, AddTopic, DeleteTopic } from 'src/app/store/actions/topic.actions';
+import { LoadSingleLesson, UpdateLesson } from 'src/app/store/actions/lesson.actions';
+import { StoreResponse } from 'src/app/core/models/response';
 
 @AutoUnsubscribe()
 @Component({
@@ -25,7 +27,7 @@ export class LessonComponent implements OnInit {
   private id: string;
   materialsSelect: Observable<Material[]>;
   topicsSelect: Observable<Topic[]>;
-  lessonSelect: Observable<Lesson>;
+  lessonSelect: Observable<StoreResponse<Lesson>>;
   lessonMaterialsSelect: Observable<Material[]>;
 
   topics$: Subscription;
@@ -35,7 +37,7 @@ export class LessonComponent implements OnInit {
   materials: Material[] = [];
   topics: Topic[] = [];
   quickNavigation: Anchor[] = [];
-
+  lesson: Lesson;
   authorized: boolean;
 
   constructor(
@@ -45,30 +47,27 @@ export class LessonComponent implements OnInit {
   ) {
     this.materialsSelect = this.store.select(getMaterialsList);
     this.topicsSelect = this.store.select(getLessonTopicsList);
-    this.lessonMaterialsSelect = this.store.select(getLessonTopicsList);
+    this.lessonMaterialsSelect = this.store.select(getMaterialsList);
     this.lessonSelect = this.store.select(getLesson);
 
   }
 
   ngOnInit() {
-    this.materials$ = this.materialsSelect.subscribe(data => {
-      this.materials = [
-        ...data,
-        ...LessonFirebaseService.accumulateLessonTopicsMaterials(this.topics)
-      ];
-    });
+    this.lesson$ = this.lessonSelect.subscribe(lesson => {
+      if (lesson.data) {
+        this.lesson = lesson.data;
+        this.loadAdditionalData();
+      }
+    })
 
     this.topics$ = this.topicsSelect.subscribe(data => {
       this.topics = data;
       this.quickNavigation = data.map(topic => new Anchor(topic.anchor, topic.title));
-      this.store.dispatch(new LoadMaterials(new Lesson({
-        id: 'lesson-1'
-      })));
+      this.materials = LessonFirebaseService.accumulateLessonTopicsMaterials(this.topics)
     });
 
     this.route.params.subscribe(({ id }) => {
-      this.id = 'lesson-1';
-      this.load();
+      this.load(id);
     });
 
     this.authService.authorized.subscribe(data => {
@@ -77,13 +76,34 @@ export class LessonComponent implements OnInit {
 
   }
 
-  load() {
-    this.store.dispatch(new LoadTopics(new Lesson({
-      id: this.id
-    })));
+  private load(id: string) {
+    this.store.dispatch(new LoadSingleLesson(id));
+  }
+
+  private loadAdditionalData() {
+    this.store.dispatch(new LoadTopics(this.lesson));
+    this.store.dispatch(new LoadMaterials(this.lesson));
   }
 
   handleTopicSave(topic: Topic) {
     this.store.dispatch(new UpdateTopic(topic));
+  }
+
+  handleUpdateTitle(title: string) {
+    const newLesson = this.lesson.clone();
+    newLesson.title = title;
+    this.store.dispatch(new UpdateLesson(newLesson));
+  }
+
+  handleAddTopic() {
+    const lastTopic = this.topics[this.topics.length - 1];
+    const id = String(lastTopic ? Number(lastTopic.id) + 1 : 1);
+    this.store.dispatch(new AddTopic(new Topic({
+      id
+    }, this.lesson)));
+  }
+
+  handleDeleteTopic(topic: Topic) {
+    this.store.dispatch(new DeleteTopic(topic));
   }
 }

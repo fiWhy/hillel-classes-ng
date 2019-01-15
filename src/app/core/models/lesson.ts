@@ -7,7 +7,7 @@ export class Lesson {
     constructor(data: any) {
         this.id = data.id;
         this.title = data.title;
-        this.description = data.description;
+        this.description = data.description || '';
     }
 
     private get value() {
@@ -19,5 +19,9 @@ export class Lesson {
 
     toPlainObject() {
         return this.value;
+    }
+
+    clone() {
+        return new Lesson(this);
     }
 }

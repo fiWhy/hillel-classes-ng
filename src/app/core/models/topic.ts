@@ -6,16 +6,16 @@ export class TopicGoal {
     articles?: Material[];
 
     constructor(data: any) {
-        this.content = data.content;
-        this.goal = data.goal;
-        this.articles = [...(data.articles || [])];
+        this.content = data.content || 'Placeholder content';
+        this.goal = data.goal || 'Placeholder goal';
+        this.articles = [...(data.articles || []).map(a => new Material(a))];
     }
 
     private get value() {
         return {
             content: this.content,
             goal: this.goal,
-            articles: [...this.articles]
+            articles: [...this.articles.map(a => a.toPlainObject())]
         }
     }
 
@@ -36,17 +36,17 @@ export class Topic {
 
     constructor(data: any, public lesson: Lesson) {
         this.id = data.id;
-        this.anchor = data.anchor;
-        this.title = data.title;
+        this.anchor = data.anchor || `anchor-${this.id}`;
+        this.title = data.title || 'Placeholder Title';
         this.data = (data.data || []).map(el => new TopicGoal(el));
     }
 
     private get value() {
         return {
-            id: this.id,
-            anchor: this.anchor,
+            id: this.id || null,
+            anchor: this.anchor || null,
             data: this.data.map(el => el.toPlainObject()),
-            title: this.title
+            title: this.title || null
         };
     }
 
@@ -56,5 +56,9 @@ export class Topic {
 
     toPlainObject() {
         return this.value;
+    }
+
+    get articles() {
+        return this.data.reduce((accum, goal) => accum.concat(goal.articles), []);
     }
 }

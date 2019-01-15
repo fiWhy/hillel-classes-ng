@@ -1,7 +1,13 @@
-<div *ngIf="editContent; else content">
-  <ckeditor [editor]="Editor" (change)="handleContentChanged($event)" [data]="data"></ckeditor>
+<div *ngIf="editContent; else contentBlock" class="content-block">
+  <ckeditor [editor]="Editor" *ngIf="editor; else plainText" (change)="handleContentChanged($event)" [data]="data"></ckeditor>
+  <ng-template #plainText>
+    <input [(ngModel)]="content">
+  </ng-template>
   <button class="ui primary button" (click)="disableContentEditor($event)">Save</button>
 </div>
-<ng-template #content>
-  <div (click)="enableContentEditor($event)" [innerHTML]="data"></div>
+<ng-template #contentBlock>
+  <div class="content-block">
+    <div [innerHTML]="data" class="content-block"></div>
+    <button *ngIf="withButton" class="edit-btn" (click)="enableContentEditor($event)">Edit</button>
+  </div>
 </ng-template>

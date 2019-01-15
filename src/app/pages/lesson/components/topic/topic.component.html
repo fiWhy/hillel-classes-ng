@@ -3,12 +3,17 @@
     <header class="ui one column grid topic">
       <div class="column">
         <h2 class="ui header underlined">
-          <a class="hash" [routerLink]="['.']" [fragment]="item.anchor">{{ item.title }}</a>
+          <a class="hash" [routerLink]="['.']" [fragment]="item.anchor">
+            <c-editable-input [data]="item.title" (save)="handleUpdateField('title', $event)" [editable]="editable"
+              [editor]="false"></c-editable-input>
+            <button (click)="handleDelete()">Delete</button>
+          </a>
         </h2>
       </div>
     </header>
     <section class="ui divider"></section>
-    <app-topic-goal *ngFor="let item of item.data;let i = index" [item]="item" (goalSave)="handleGoalSave($event, i)"
-      (contentSave)="handleContentSave($event, i)" (materialsAdd)="handleMaterialsAdd($event)" [editable]="editable"></app-topic-goal>
+    <app-topic-goal *ngFor="let item of item.data;let i = index" [item]="item" (delete)="handleDeleteGoal($event, i)" (update)="handleUpdate($event, i)"
+      [editable]="editable"></app-topic-goal>
+    <button (click)="handleAddGoal()">Add Goal</button>
   </div>
 </div>

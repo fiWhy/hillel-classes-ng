@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentChangeAction, DocumentChange, Action } from '@angular/fire/firestore';
 import { Topic } from '../models/topic';
 import { map } from 'rxjs/operators';
 import { Lesson } from '../models/lesson';
@@ -35,10 +35,17 @@ export class FirebaseService {
     return sh.map(s => FirebaseService.convertSingleDoc<T>(s));
   }
 
+  public static convertWithoutDoc<T>(d: Action<any>): T {
+    return {
+      ...d.payload.data(),
+      id: d.payload.id,
+    }
+  }
+
   public static convertSingleDoc<T>(d: DocumentChangeAction<any>): T {
     return {
+      ...d.payload.doc.data(),
       id: d.payload.doc.id,
-      ...d.payload.doc.data()
     }
   }
 

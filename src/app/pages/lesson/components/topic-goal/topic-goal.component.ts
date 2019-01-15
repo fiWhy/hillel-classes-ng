@@ -16,9 +16,8 @@ export class TopicGoalComponent implements OnInit {
 
   content: string;
 
-  @Output() goalSave = new EventEmitter<TopicGoal>();
-  @Output() contentSave = new EventEmitter<TopicGoal>();
-  @Output() materialsAdd = new EventEmitter<Material[]>();
+  @Output() update = new EventEmitter<TopicGoal>();
+  @Output() delete = new EventEmitter<TopicGoal>();
 
   @Input() item: TopicGoal;
   @Input() editable: boolean;
@@ -31,16 +30,34 @@ export class TopicGoalComponent implements OnInit {
   handleContentSave(data: string) {
     const newItem = this.item.clone();
     newItem.content = data;
-    this.contentSave.emit(newItem);
+    this.update.emit(newItem);
   }
 
   handleGoalSave(data: string) {
     const newItem = this.item.clone();
     newItem.goal = data;
-    this.goalSave.emit(newItem);
+    this.update.emit(newItem);
   }
 
   handleAddMaterials(materials: Material[]) {
-    this.materialsAdd.emit(materials);
+    const newItem = this.item.clone();
+    newItem.articles = [...materials];
+    this.update.emit(newItem);
+  }
+
+  handleRemoveMaterial(index: number) {
+    const newItem = this.item.clone();
+    newItem.articles.splice(index, 1);
+    this.update.emit(newItem);
+  }
+
+  handleInitializeMaterials() {
+    const newItem = this.item.clone();
+    newItem.articles.push(new Material({}));
+    this.update.emit(newItem);
+  }
+
+  handleDeleteGoal() {
+    this.delete.emit();
   }
 }

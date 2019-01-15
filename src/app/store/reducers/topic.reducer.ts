@@ -1,8 +1,9 @@
 import { TopicActionTypes, TopicActions } from '../actions/topic.actions';
+import { Topic } from '@core/models/topic';
 
 
 export interface State {
-  items: any;
+  items: Topic[];
 }
 
 export const initialState: State = {
@@ -18,6 +19,12 @@ export function reducer(state = initialState, action: TopicActions): State {
     }
 
     case TopicActionTypes.UpdateTopic: {
+      return {
+        items: state.items
+      }
+    }
+
+    case TopicActionTypes.AddTopic: {
       return {
         items: state.items
       }

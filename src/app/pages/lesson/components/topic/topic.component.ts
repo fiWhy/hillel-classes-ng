@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Topic, TopicGoal } from '@core/models/topic';
-import { Material } from 'src/app/core/models/material';
 
 @Component({
   selector: 'c-topic',
@@ -15,28 +14,39 @@ export class TopicComponent implements OnInit {
   editContent = false;
   editGoal = false;
 
-  @Output() change = new EventEmitter<Topic>();
+  @Output() update = new EventEmitter<Topic>();
+  @Output() delete = new EventEmitter<Topic>();
 
   constructor() { }
 
   ngOnInit() { }
 
-  handleContentSave(item: TopicGoal, index: number) {
+  handleUpdateField(field: string, value: string) {
     const newItem = this.item.clone();
-    newItem.data.splice(index, 1, item);
-    this.change.emit(newItem);
+    newItem[field] = value;
+    this.update.emit(newItem)
   }
 
-  handleGoalSave(item: TopicGoal, index: number) {
+  handleUpdate(goal: TopicGoal, index: number) {
     const newItem = this.item.clone();
-    newItem.data.splice(index, 1, item);
-    this.change.emit(newItem);
+    newItem.data[index] = goal;
+    this.update.emit(newItem);
   }
 
-  handleMaterialsAdd(materials: Material[]) {
+  handleAddGoal() {
     const newItem = this.item.clone();
-    newItem.articles = [...newItem.articles, ...materials];
-    this.change.emit(newItem);
+    newItem.data.push(new TopicGoal({}));
+    this.update.emit(newItem);
+  }
+
+  handleDelete() {
+    this.delete.emit(this.item);
+  }
+
+  handleDeleteGoal(goal: TopicGoal, goalIndex: number) {
+    const newItem = this.item.clone();
+    newItem.data.splice(goalIndex, 1);
+    this.update.emit(newItem);
   }
 
 }

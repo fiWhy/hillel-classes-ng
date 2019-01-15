@@ -1,24 +1,27 @@
 <div class="ui piled segment">
   <h3 class="header">{{ title }}</h3>
   <div class="ui list">
-    <div class="item" *ngFor="let item of items">
+    <div class="item" *ngFor="let item of listItems; let i = index">
       <div class="content">
         <div class="header">
-          <a [href]="item.link">{{ item.text }}</a>
-        </div>
-      </div>
-    </div>
-    <div class="item" *ngFor="let item of newItems">
-      <div class="content">
-        <div class="header">
-          <input placeholder="Link" [(ngModel)]="item.link">
-          <input placeholder="Text" [(ngModel)]="item.text">
+          <div class="content" *ngIf="!item.edit; else edit">
+            <a [href]="item.material.link">{{ item.material.text }}</a>
+            <i (click)="handleRemove(i)" class="close icon pointer">X</i>
+            <i (click)="handleToggleEdit(i)" class="close icon pointer">E</i>
+          </div>
+          <ng-template #edit>
+            <div class="header">
+              <input placeholder="Link" [(ngModel)]="item.material.link">
+              <input placeholder="Text" [(ngModel)]="item.material.text"> &nbsp;
+              <i (click)="handleToggleEdit(i)" class="close icon pointer">F</i>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
   </div>
   <div class="buttons" *ngIf="editable">
     <button (click)="handleAddMaterial()">Add</button>
-    <button *ngIf="newItems.length" (click)="handleSave()">Save</button>
+    <button *ngIf="notSavedExists" (click)="handleSave()">Save</button>
   </div>
 </div>

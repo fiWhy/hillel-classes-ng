@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentChangeAction, DocumentData, CollectionReference } from '@angular/fire/firestore';
-import { map, mergeMap } from 'rxjs/operators';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 import { FirebaseService } from './firebase.service';
 import { Lesson } from '../models/lesson';
-import { Observable } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { Material } from '../models/material';
 import { Topic } from '../models/topic';
 
@@ -41,8 +41,16 @@ export class LessonFirebaseService {
   }
 
 
-  getLesson(lesson: Lesson): AngularFirestoreDocument<Lesson> {
-    return this.lessonsCollection.doc(lesson.id);
+  getLesson(lessonId: string): AngularFirestoreDocument<Lesson> {
+    return this.lessonsCollection.doc(lessonId);
+  }
+
+  getLessonChanges(lessonId: string) {
+    return this.getLesson(lessonId).snapshotChanges()
+      .pipe(
+        map((lesson: any) => FirebaseService.convertWithoutDoc<Lesson>(lesson)),
+        map((lesson: Lesson) => new Lesson(lesson))
+      )
   }
 
   getTopic(topic: Topic) {
@@ -50,11 +58,23 @@ export class LessonFirebaseService {
   }
 
   updateLesson(lesson: Lesson) {
-    return this.getLesson(lesson).update(lesson.toPlainObject());
+    return from(this.getLesson(lesson.id).update(lesson.toPlainObject()));
+  }
+
+  createLesson(lesson: Lesson) {
+    return from(this.lessonsCollection.doc(lesson.id).set(lesson.toPlainObject()));
   }
 
   updateTopic(topic: Topic) {
     return this.getTopicsCollection(topic.lesson).doc(topic.id).update(topic.toPlainObject());
+  }
+
+  addTopic(topic: Topic) {
+    return this.getTopicsCollection(topic.lesson).doc(topic.id).set(topic.toPlainObject());
+  }
+
+  deleteTopic(topic: Topic) {
+    return this.getTopicsCollection(topic.lesson).doc(topic.id).delete();
   }
 
   getLessonMaterials(lesson: Lesson): Observable<Material[]> {

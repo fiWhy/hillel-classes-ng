@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ContentChildren, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
@@ -11,12 +11,15 @@ export class EditableInputComponent implements OnInit {
   Editor = ClassicEditor;
   content: string;
   editContent: boolean;
+  inputData = '';
 
   @Input() editable = true;
   @Input() data: string;
+  @Input() editor = true;
+  @Input() withButton = true;
+
 
   @Output() save = new EventEmitter<string>();
-  @Output() change
 
   constructor() { }
 

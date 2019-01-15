@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { TopicActionTypes, LoadTopicsSuccess, UpdateTopicSuccess } from '../actions/topic.actions';
+import { TopicActionTypes, LoadTopicsSuccess, UpdateTopicSuccess, AddTopicSuccess, DeleteTopicSuccess } from '../actions/topic.actions';
 import { switchMap, map, pluck, tap } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { Topic } from 'src/app/core/models/topic';
@@ -30,6 +30,26 @@ export class TopicEffects {
         this.lessonFirebaseService.updateTopic(data);
       }),
       map(() => new UpdateTopicSuccess())
+    );
+
+  @Effect() addLessonTopic$: any = this.actions$
+    .pipe(
+      ofType(TopicActionTypes.AddTopic),
+      pluck('payload'),
+      tap((data: Topic) => {
+        this.lessonFirebaseService.addTopic(data);
+      }),
+      map(() => new AddTopicSuccess())
+    );
+
+  @Effect() deleteLessonTopic$: any = this.actions$
+    .pipe(
+      ofType(TopicActionTypes.DeleteTopic),
+      pluck('payload'),
+      tap((data: Topic) => {
+        this.lessonFirebaseService.deleteTopic(data);
+      }),
+      map(() => new DeleteTopicSuccess())
     );
 
   constructor(
