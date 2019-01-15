@@ -6,7 +6,7 @@
           <a class="hash" [routerLink]="['.']" [fragment]="item.anchor">
             <c-editable-input [data]="item.title" (save)="handleUpdateField('title', $event)" [editable]="editable"
               [editor]="false"></c-editable-input>
-            <button (click)="handleDelete()">Delete</button>
+            <button *ngIf="editable" (click)="handleDelete()">Delete</button>
           </a>
         </h2>
       </div>
@@ -14,6 +14,6 @@
     <section class="ui divider"></section>
     <app-topic-goal *ngFor="let item of item.data;let i = index" [item]="item" (delete)="handleDeleteGoal($event, i)" (update)="handleUpdate($event, i)"
       [editable]="editable"></app-topic-goal>
-    <button (click)="handleAddGoal()">Add Goal</button>
+    <button *ngIf="editable" (click)="handleAddGoal()">Add Goal</button>
   </div>
 </div>

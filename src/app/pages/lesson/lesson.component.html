@@ -1,7 +1,12 @@
+<button (click)="togglePreview()">Toggle preview</button>
 <c-article-header>
   <h1 class="header">
-    <c-editable-input [data]="lesson?.title" (save)="handleUpdateTitle($event)" [editable]="authorized" [editor]="false"></c-editable-input>
+    <c-editable-input [data]="lesson?.title" (save)="handleUpdateField('title', $event)" [editable]="editable" [editor]="false"></c-editable-input>
   </h1>
+  <div>
+    <c-editable-input [data]="lesson?.description" (save)="handleUpdateTitle('description', $event)" [editable]="editable"
+      [editor]="false"></c-editable-input>
+  </div>
 </c-article-header>
 <div class="ui grid">
   <div class="thirteen wide tablet thirteen wide computer sixteen wide mobile column presentation-content">
@@ -20,9 +25,9 @@
         <div class="ui divider"></div>
       </div>
     </div>
-    <c-topic (update)="handleTopicSave($event)" (deleteGoal)="handleDeleteGoal($event)" (delete)="handleDeleteTopic($event)" [editable]="authorized" [item]="item"
-      *ngFor="let item of topics"></c-topic>
-    <button (click)="handleAddTopic()">Add topic</button>
+    <c-topic (update)="handleTopicSave($event)" (deleteGoal)="handleDeleteGoal($event)" (delete)="handleDeleteTopic($event)"
+      [editable]="editable" [item]="item" *ngFor="let item of topics"></c-topic>
+    <button *ngIf="editable" (click)="handleAddTopic()">Add topic</button>
   </div>
   <div id="sticker" class="two wide tablet computer only column">
     <c-quick-navigation [items]="quickNavigation"></c-quick-navigation>

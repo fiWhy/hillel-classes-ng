@@ -39,6 +39,11 @@ export class LessonComponent implements OnInit {
   quickNavigation: Anchor[] = [];
   lesson: Lesson;
   authorized: boolean;
+  previewMode = false;
+
+  get editable() {
+    return this.authorized && !this.previewMode;
+  }
 
   constructor(
     private store: Store<State>,
@@ -84,14 +89,18 @@ export class LessonComponent implements OnInit {
     this.store.dispatch(new LoadTopics(this.lesson));
     this.store.dispatch(new LoadMaterials(this.lesson));
   }
+  
+  togglePreview() {
+    this.previewMode = !this.previewMode;
+  }
 
   handleTopicSave(topic: Topic) {
     this.store.dispatch(new UpdateTopic(topic));
   }
 
-  handleUpdateTitle(title: string) {
+  handleUpdateField(key: string, value: string) {
     const newLesson = this.lesson.clone();
-    newLesson.title = title;
+    newLesson[key] = value;
     this.store.dispatch(new UpdateLesson(newLesson));
   }
 

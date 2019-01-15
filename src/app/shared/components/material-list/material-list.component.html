@@ -6,8 +6,10 @@
         <div class="header">
           <div class="content" *ngIf="!item.edit; else edit">
             <a [href]="item.material.link">{{ item.material.text }}</a>
-            <i (click)="handleRemove(i)" class="close icon pointer">X</i>
-            <i (click)="handleToggleEdit(i)" class="close icon pointer">E</i>
+            <span *ngIf="editable">
+              <i (click)="handleRemove(i)" class="close icon pointer">X</i>
+              <i (click)="handleToggleEdit(i)" class="close icon pointer">E</i>
+            </span>
           </div>
           <ng-template #edit>
             <div class="header">
@@ -21,7 +23,7 @@
     </div>
   </div>
   <div class="buttons" *ngIf="editable">
-    <button (click)="handleAddMaterial()">Add</button>
+    <button (click)="handleAddMaterial()" *ngIf="editable">Add</button>
     <button *ngIf="notSavedExists" (click)="handleSave()">Save</button>
   </div>
 </div>

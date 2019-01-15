@@ -8,6 +8,6 @@
 <ng-template #contentBlock>
   <div class="content-block">
     <div [innerHTML]="data" class="content-block"></div>
-    <button *ngIf="withButton" class="edit-btn" (click)="enableContentEditor($event)">Edit</button>
+    <button *ngIf="withButton && editable" class="edit-btn" (click)="enableContentEditor($event)">Edit</button>
   </div>
 </ng-template>

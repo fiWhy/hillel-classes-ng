@@ -7,7 +7,7 @@
     <c-editable-input [data]="item.content" (save)="handleContentSave($event)" [editable]="editable"></c-editable-input>
     <c-material-list *ngIf="item.articles.length" (remove)="handleRemoveMaterial($event)" (add)="handleAddMaterials($event)"
       (remove)="handleRemoveMaterial($event)" [editable]="editable" [items]="item.articles"></c-material-list>
-    <button *ngIf="!item.articles.length" (click)="handleInitializeMaterials()">Add materials</button>
-    <button (click)="handleDeleteGoal()">Delete Goal</button>
+    <button *ngIf="!item.articles.length && editable" (click)="handleInitializeMaterials()">Add materials</button>
+    <button *ngIf="editable" (click)="handleDeleteGoal()">Delete Goal</button>
   </div>
 </section>
