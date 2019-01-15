@@ -40,11 +40,10 @@ export class DashboardComponent implements OnInit {
   handleCreateLesson() {
     const lastLesson = this.lessons[this.lessons.length-1];
     const lastLessonId = lastLesson ? Number(lastLesson.id) : 0;
-    debugger;
-    // this.store.dispatch(new CreateLesson(new Lesson({
-    //   id: String(!lastLessonId ? 1 : lastLessonId + 1),
-    //   title: 'Placeholder title'
-    // })));
+    this.store.dispatch(new CreateLesson(new Lesson({
+      id: String(!lastLessonId ? 1 : lastLessonId + 1),
+      title: 'Placeholder title'
+    })));
   }
 
 }
